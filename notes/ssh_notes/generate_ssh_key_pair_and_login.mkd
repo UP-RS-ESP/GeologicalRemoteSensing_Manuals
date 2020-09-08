@@ -1,0 +1,87 @@
+---
+title:  'SSH-key based login to the Pcpool PCs in the Remote Sensing Lab '
+output:
+  pdf_document:
+    fig_caption: yes
+    keep_tex: yes
+    strip.white=TRUE
+
+header-includes:
+ \usepackage{float}
+ \floatplacement{figure}{h}
+
+author:
+- Harald Schernthanner
+date: \today
+tags: [Systemadministration]
+abstract: |
+  
+link-citations: true
+
+...
+\title{%
+ SSH-key based login to the Pcpool PCs in the Remote Sensing Lab \\
+  \large University of Potsdam, Institute of Geoscience \\
+    Master Remote Sensing, geoInformation and Visualization}
+\date{\today}
+\author{Harald Schernthanner\\ E-Mail \href{mailto:hschernt@uni-potsdam.de}{hschernt@uni-potsdam.de}}
+\maketitle
+\tableofcontents
+\pagenumbering{arabic}
+
+
+
+[//]: # (Convert Mardown document to pdf with pandoc: pandoc generate_ssh_key_pair_and_login.mkd --number-sections --pdf-engine=xelatex -V papersize=a4paper  -V lang=en-En  -V breakurl -V hyphens=URL -V colorlinks --variable mainfont="DejaVu Sans" -o ssh_login.pdf
+)
+
+
+
+
+# How to generate a ssh key and login to a remote PC?
+
+The tutorial explains how to remotely login to a lab PC using a ssh key and access a computer in the PCPOOL in building 27. On the lab PCs Ubuntu 18.04.5 is running.
+
+
+## Windows 10: Generate a public - private key pair and login to a PC 
+
+For Windows 10 users the use of PuTTY is recommended. PuTTY is a SSH client, that has the capability to generate ssh keys.
+
+1. Install [PuTTY](https://www.putty.org/) on your computer.
+2. Generate a key pair PuTTYgen, a key generator that is installed along with PuTTY.
+
+
+![Generate 2048 bit public/private key pair](putty-keygen_steps.png)\
+*Figure 1: Generare 2048 bit RSA keys*
+
+2.1 The keys have to be RSA keys with 2048 bits. Copy the key inside the window (see figure 1) in PuTTYgen
+named *"Public key for pasting into openSSH"*, paste it into your E-Mail client and send the key to Harald Schernthanner ([hschernt@uni-potsdam.de](mailto:hschernt@uni-potsdam.de))
+
+3. Save the private key. Important: always keep your private key and **never** handout your private key!
+
+4. Harald Schernthanner generates an account for you, puts your key on the system, contacts you, when your account is ready and tells you your username and the IP of your machine.
+
+5. When the account is ready, please login using PuTTY. In PuTTY you just have to tell the programm the path to the private key: `ssh -> connection -> auth` 
+
+
+![Load your private key](putty-private-key-load.png)\
+*Figure 2: Load private key*
+
+6. Connect with the username and IP given to you.
+
+
+
+## LINUX and Mac users [^1] : Generate a public - private key pair and login to PC
+
+1. Open a terminal and execute `ssh-keygen`.
+2. You will be asked to  *Enter file in which to save the key (/home/administrator/.ssh/id_rsa): *
+Define a folder and filename e.g.  */home/yourusername/yourkeyname*
+When you are asked to enter a passphrase:  leave it blank by pressing enter (we don't necessarily need a passphrase for the public key).
+This generates two files: First the private key; please keep it in a save place and second the public key named yourkeyname.pub).
+
+4. Send the public key to hschernt@uni-potsdam.de
+
+5. The administrator Harald Schernthanner(hschernt@uni-potsdam.de) generates an account for you, puts your key on the system, contacts you, when your account is ready and tells you your username and the IP of your machine. 
+
+6. Login with `$ssh -i yourkeyname yourusername@141.89.113.170`. After the -i flag you have to define **the path to your private key**, then the access without password should be possible.
+
+[^1]: The access was tested with Ubuntu 18.04 and MacOS
