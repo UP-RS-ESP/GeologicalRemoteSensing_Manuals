@@ -3,7 +3,7 @@ title: "Python Setup - Installation and Environment"
 subtitle: ""
 subject: "Python Install"
 date: "7 September 2020"
-author: "[UP Geological Remote Sensing](https://up-rs-esp.github.io/) - [Dr. Harald Schernthanner](mailto:hschernt@uni-potsdam.de)"
+author: "[UP Geological Remote Sensing](https://up-rs-esp.github.io/)"
 keywords: [installation python]
 titlepage: false
 toc-own-page: false
@@ -179,13 +179,17 @@ For this course (_Data Analysis and Statistics_) we will rely on some fundamenta
   - [pandas](https://pandas.pydata.org/) for tabular data manipulation
   - [scipy](https://www.scipy.org/) for advanced math
   - [rasterio](https://rasterio.readthedocs.io/en/latest/) for geospatial array manipulation
+  - [mpmath](http://mpmath.org/) for some floating point arithmetic during our power-law lesson
+  - [pytables](https://www.pytables.org/) for working with HDF files
+  - [cartopy](https://scitools.org.uk/cartopy/docs/latest/) for cartography (maps!)
+  - [scikit-image](https://scikit-image.org/) for some image utilities
   - [jupyter notebook](https://jupyter.org/) for interactive scripting, we'll run the lecture materials and homeworks through the Jupyter Notebook interface
 
 From the command line, activate the environment so that you see `(DataAnalysis)` next to the command prompt. Now enter the following commands (same for any OS):
 
 ```
 conda config --prepend channels conda-forge
-conda install --y numpy matplotlib pandas scipy rasterio notebook
+conda install --y ipython numpy matplotlib pandas scipy rasterio pytables mpmath notebook cartopy scikit-image
 ```
 
 In the end you should see something like this (without any failure messages):
@@ -217,9 +221,9 @@ We installed packages using the `conda` command-line tool. The Miniconda install
 
 Now let's just check that the Python environment for _Data Analysis and Statistics_ is ready to go before we move on. Please run the following at your command line:
 ```
-python -c "import matplotlib, numpy, pandas, scipy, rasterio"
+python -c "import matplotlib, numpy, pandas, scipy, rasterio, tables, mpmath, cartopy, skimage"
 ```
-This shouldn't produce any output (or errors).
+This shouldn't produce any output (or errors). 
 
 
 # Jupyter Notebook
