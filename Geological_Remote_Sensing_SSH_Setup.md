@@ -85,12 +85,12 @@ ssh -i /home/ben/yourkeyname ben@141.89.113.170
 
 ## Data Storage on PC Pool Computers
 
-Do not store your data in your home directory (`/home/student`). Instead use `/DATA` for fast, local storage and `/NAS` for network storage. You should create your own sub-directory. For the user `ben`, I would write:
+Do not store your data in your home directory (`/home/student`). Instead use `/data` for fast, local storage and `/NAS` for network storage. You should create your own sub-directory. For the user `ben`, I would write:
 ```
-mkdir /DATA/ben
+mkdir /data/ben
 ```
 
-_**Note: We periodically wipe the `/home`, `/DATA`, and `/NAS` directories (don't worry, not during courses!), so don't plan on long-term storage on the PC Pool**_
+_**Note: We periodically wipe the `/home`, `/data`, and `/NAS` directories (don't worry, not during courses!), so don't plan on long-term storage on the PC Pool**_
 
 
 ## File Transfer Between Local and Remote Computers
@@ -123,13 +123,13 @@ The basic syntax is:
 ```
 rsync <options> <local filename> <remote filename>
 ```
-For example, if I (user: `ben` on computer `141.89.113.160`) want to copy the file `my_jupyter_notebook.ipynb` from my local computer to the PC Pool location `/DATA/ben`, use:
+For example, if I (user: `ben` on computer `141.89.113.160`) want to copy the file `my_jupyter_notebook.ipynb` from my local computer to the PC Pool location `/data/ben`, use:
 ```
-rsync -avzh --progress my_jupyter_notebook.ipynb ben@141.89.113.160:/DATA/ben/
+rsync -avzh --progress my_jupyter_notebook.ipynb ben@141.89.113.160:/data/ben/
 ```
 Or to transfer a remote file on the PC pool to my current directory (**Note:** the period (`.`) below refers to _**current directory**_, so wherever you are currently `cd`'d to):
 ```
-rsync -avzh --progress ben@141.89.113.160:/DATA/ben/my_jupyter_notebook.ipynb .
+rsync -avzh --progress ben@141.89.113.160:/data/ben/my_jupyter_notebook.ipynb .
 ```
 The `rsync` options used here include: `-a` (archive), `-v` (verbose), `-z` (compress), `-h` (human readable), and `--progress` (progress bar). You can read about the `rsync` options online via the [manual](https://linux.die.net/man/1/rsync) or in [cheat sheets](https://devhints.io/rsync).
 
@@ -183,7 +183,7 @@ jupyter notebook password
 
 This will first activate the Python environment for the class (e.g., `DataAnalysis` in place of `<Class Environment Name>`), then generate a configuration file for Jupyter, and then allow you to create a password to access the notebook.
 
-Following this, you need to `cd` into the remote directory where your data is stored, e.g., `cd /DATA/my_username/DataAnalysis_Labs/`. Make sure that you have your own directory set up on the `/DATA` drive! Otherwise you will overwrite each other's work!
+Following this, you need to `cd` into the remote directory where your data is stored, e.g., `cd /data/my_username/DataAnalysis_Labs/`. Make sure that you have your own directory set up on the `/data` drive! Otherwise you will overwrite each other's work!
 
 Now start the Jupyter Notebook session on the PC Pool:
 ```
@@ -226,7 +226,7 @@ jupyter notebook password
 
 This will first activate the Python environment for the class (e.g., `DataAnalysis` in place of `<Class Environment Name>`), then generate a configuration file for Jupyter, and then allow you to create a password to access the notebook.
 
-Following this, you need to `cd` into the remote directory where your data is stored, e.g., `cd /DATA/my_username/DataAnalysis_Labs/`. Make sure that you have your own directory set up on the `/DATA` drive! Otherwise you will overwrite each other's work!
+Following this, you need to `cd` into the remote directory where your data is stored, e.g., `cd /data/my_username/DataAnalysis_Labs/`. Make sure that you have your own directory set up on the `/data` drive! Otherwise you will overwrite each other's work!
 
 Now start the Jupyter Notebook session on the PC Pool:
 ```
