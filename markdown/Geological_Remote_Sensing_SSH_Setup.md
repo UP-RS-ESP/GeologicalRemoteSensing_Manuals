@@ -23,41 +23,127 @@ If you have questions about this document you can find our team webpage with con
 
 This document describes in detail how to access and work remotely using the PC Pool at Potsdam using `ssh` logins. You should already be familiar with your command line, setting up a Python environment, and Jupyter notebooks from the other manual titled _Geological Remote Sensing Python Setup_.
 
-# Working Remotely: PC Pool in Golm (Building 27)
+# Working Remotely: PC Pool in Golm (Building 32)
 
 If you do not or cannot install the required software or Python environment on your personal computer, we have the option of working remotely through the PC Pool at Campus Golm. Heavy computation may also require the more powerful PC Pool on campus, so it's good to familiarize yourself with these steps and generate your own SSH private/public key pair for login to the PC Pool.
 
 
 ## Login Via `ssh`
 
-[SSH](https://en.wikipedia.org/wiki/Secure_Shell) stands for secure shell and is a safe and encrypted way to access computers remotely. We will work with the `ssh` command-line environment. The below steps will walk you through ssh private/public key generation, allowing secure and easy login without passwords. Once logged into the remote PC Pool computer you will be in a Linux (Ubuntu 18.04.5) command-line environment.
+[SSH](https://en.wikipedia.org/wiki/Secure_Shell) stands for secure shell and is a safe and encrypted way to access computers remotely. We will work with the `ssh` command-line environment. The below steps will walk you through ssh private/public key generation, allowing secure and easy login without passwords. Once logged into the remote PC Pool computer you will be in a Linux (e.g. Ubuntu) command-line environment.
 
+### SSH Key Generation and Login: Windows
 
-### `ssh` Key Generation and Login: Windows
+Modern Windows systems include the OpenSSH client, or it can be installed as an optional Windows feature. Therefore, Windows users can usually work directly from **PowerShell** or **Windows Terminal** without installing additional SSH software.
 
-Windows does not come with `ssh` in the default command-line environment. The use of [PuTTY](https://www.putty.org/) is recommended. PuTTY is an ssh client, that has the capability to generate private/public ssh keys and login to remote servers. *As an alternative to the below steps, consider installing the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10) available in Windows 10. This will give you a Linux terminal identical to Ubuntu (or whatever Linux flavor you prefer). In that case you could use the instructions in the next section for ssh login on Linux / Mac.*
+If you prefer a graphical SSH client, you may still use [PuTTY](https://www.putty.org/). See the separate section **Alternative: Using PuTTY on Windows** below.
+
+#### Recommended method: OpenSSH in PowerShell or Windows Terminal
+
+1. Open **PowerShell** or **Windows Terminal** and check whether SSH is available:
+
+```powershell
+ssh -V
+```
+
+2. If SSH is not available, install the **OpenSSH Client** via Windows Settings:
+
+   **Settings > System > Optional features > Add an optional feature > OpenSSH Client**
+
+3. Generate a new SSH key pair. We recommend using an **Ed25519** key:
+
+```powershell
+mkdir $env:USERPROFILE\.ssh -Force
+ssh-keygen -t ed25519 -a 100 -f $env:USERPROFILE\.ssh\pcpool_ed25519 -C "your.name@uni-potsdam.de"
+```
+
+If Ed25519 is not available, generate an RSA key with at least 4096 bits instead:
+
+```powershell
+ssh-keygen -t rsa -b 4096 -a 100 -f $env:USERPROFILE\.ssh\pcpool_rsa -C "your.name@uni-potsdam.de"
+```
+
+4. When asked for a passphrase, choose a strong passphrase. This protects your private key if your computer is lost or compromised.
+
+5. The command creates two files in your `.ssh` folder:
+
+```text
+C:\Users\<your-windows-username>\.ssh\pcpool_ed25519
+C:\Users\<your-windows-username>\.ssh\pcpool_ed25519.pub
+```
+
+The file without `.pub` is your **private key**. Keep it secure and never share it with anyone.  
+The file ending in `.pub` is your **public key**. Send only this public key to the system administrator, Dr. Harald Schernthanner ([hschernt@uni-potsdam.de](mailto:hschernt@uni-potsdam.de)).
+
+You can display the public key in PowerShell with:
+
+```powershell
+Get-Content $env:USERPROFILE\.ssh\pcpool_ed25519.pub
+```
+
+Copy the complete output and send it by email.
+
+6. After receiving your public key, Dr. Harald Schernthanner ([hschernt@uni-potsdam.de](mailto:hschernt@uni-potsdam.de)) creates an account for you, adds your public key to the system, and contacts you when your account is ready. You will receive your username and the IP address or hostname of your assigned PC Pool machine.
+
+7. When your account is ready, log in from PowerShell or Windows Terminal:
+
+```powershell
+ssh -i $env:USERPROFILE\.ssh\pcpool_ed25519 <username>@<assigned_pc_or_ip>
+```
+
+Replace `<username>` with your assigned username and `<assigned_pc_or_ip>` with the IP address or hostname of your assigned machine.
+
+8. On your first login, SSH will ask whether you trust the remote host. Check that the hostname or IP address matches the information you received, then type:
+
+```text
+yes
+```
+
+You are now logged in to the remote PC Pool machine.
+
+#### Alternative: Using PuTTY on Windows
+
+Users who prefer a graphical SSH client may use [PuTTY](https://www.putty.org/). PuTTY includes **PuTTYgen**, a tool for generating SSH key pairs, and **PuTTY**, the SSH client used to connect to remote machines.
 
 1. Install [PuTTY](https://www.putty.org/) on your computer.
 
-2. Open the program "PuTTYgen" (Open the start menu > search for "PuTTYgen" > click the icon), a key generator that is installed along with PuTTY.
+2. Open **PuTTYgen**:
 
-3. Using PuTTYgen (see below figure): Generate a 2048 bit private/public key pair, save the public and private key to a secure location on your personal computer, and copy-paste the public key to send via email to the system administrator Harald Schernthanner ([hschernt@uni-potsdam.de](mailto:hschernt@uni-potsdam.de)). **Important: Keep your private key somewhere safe, consider adding a key passphrase in PuTTYgen, and _never_ handout your private key!**
+   **Start menu > search for “PuTTYgen” > open the program**
 
-![Generate 2048 bit private/public key pair using PuTTYgen](img/putty-keygen_steps.png)
+3. In PuTTYgen, generate a new SSH key pair. We recommend using an **Ed25519** key. If Ed25519 is not available, use an **RSA** key with at least **4096 bits**.
 
-4. Harald Schernthanner ([hschernt@uni-potsdam.de](mailto:hschernt@uni-potsdam.de)) generates an account for you after receiving your public key via email, puts your key on the system, contacts you when your account is ready, and tells you your username and the IP of your assigned machine.
+4. Save both the private and public key in a secure location on your personal computer.
 
-5. When the account is ready, please login using PuTTY (Open the start menu > search for "PuTTY" > click the icon). You need to enter the *IP address of your assigned machine*:
+5. Copy the contents of the public key and send it by email to the system administrator, Dr. Harald Schernthanner ([hschernt@uni-potsdam.de](mailto:hschernt@uni-potsdam.de)).
 
-![Enter IP address of you assigned machine in PuTTY on Windows](img/putty-hostname.png)
+**Important:** Protect your private key with a strong passphrase, store it securely, and never share it with anyone. Only the public key should be sent to the administrator.
 
-6. To complete the login in PuTTY you have to tell the program the path to the private key (Connection > SSH > Auth), then you can press "Open" to login (and "Yes" to the security alert):
+![Generate private/public key pair using PuTTYgen](img/putty-keygen_steps.png)
 
-![Point PuTTY to the private key you saved in the previous step (Connection > SSH > Auth > "Private key file for authentication"). After the IP address and private key path are entered you can click "Open".](img/putty-private-key-load.png)
+6. After receiving your public key, Dr. Harald Schernthanner ([hschernt@uni-potsdam.de](mailto:hschernt@uni-potsdam.de)) creates an account for you, adds your public key to the system, and contacts you when your account is ready. You will receive your username and the IP address or hostname of your assigned PC Pool machine.
 
-![Say "Yes" to the security alert which should only occur on your very first login.](img/putty-connect-security-alert.png)
+7. When the account is ready, open **PuTTY**:
 
-7. With login complete you will enter your username and end up on a command-line terminal for your assigned computer. Below we see user `ben` logged into `pcpool10`. You are now remotely logged into the PC Pool!
+   **Start menu > search for “PuTTY” > open the program**
+
+   Enter the IP address or hostname of your assigned machine.
+
+![Enter IP address of your assigned machine in PuTTY on Windows](img/putty-hostname.png)
+
+8. To complete the login in PuTTY, select your private key file:
+
+   **Connection > SSH > Auth > Credentials > Private key file for authentication**
+
+   Then click **Open** to connect.
+
+![Point PuTTY to the private key you saved in the previous step.](img/putty-private-key-load.png)
+
+9. On your first login, PuTTY will show a security alert asking whether you trust the remote host. Check that the hostname or IP address matches the information you received, then click **Yes**.
+
+![Say "Yes" to the security alert, which should only occur on your very first login.](img/putty-connect-security-alert.png)
+
+10. After the login is complete, you will enter your username and end up on a command-line terminal for your assigned computer. Below we see user `ben` logged into `pcpool10`. You are now remotely logged in to the PC Pool.
 
 ![Logged on to the PC Pool as user `ben` on computer `pcpool10`](img/putty-logged-on.png)
 
@@ -85,12 +171,12 @@ ssh -i /home/ben/yourkeyname ben@141.89.113.170
 
 ## Data Storage on PC Pool Computers
 
-Do not store your data in your home directory (`/home/student`). Instead use `/data` for fast, local storage and `/NAS` for network storage. You should create your own sub-directory. For the user `ben`, I would write:
+Do not store your data in your home directory (`/home/student`). Instead use `/DATA` for fast, local storage. You should create your own sub-directory. For the user `ben`, I would write:
 ```
-mkdir /data/ben
+mkdir /DATA/ben
 ```
 
-_**Note: We periodically wipe the `/home`, `/data`, and `/NAS` directories (don't worry, not during courses!), so don't plan on long-term storage on the PC Pool**_
+_**Note: We periodically wipe the `/home`, and `/DATA` directories (don't worry, not during courses!), so don't plan on long-term storage on the PC Pool**_
 
 
 ## File Transfer Between Local and Remote Computers
