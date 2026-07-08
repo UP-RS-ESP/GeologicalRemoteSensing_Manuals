@@ -10,7 +10,7 @@ toc-own-page: false
 disable-header-and-footer: false
 listings-disable-line-numbers: true
 header-left:  "Working Remotely - SSH Setup"
-header-right: "Sep-7 2020"
+header-right: "Jul-8 2026"
 footer-left: ""
 lang: "en"
 ---
