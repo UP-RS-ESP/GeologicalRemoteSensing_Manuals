@@ -1,19 +1,15 @@
 ---
 title: "Working Remotely - SSH Setup"
-subtitle: ""
-subject: "Working Remotely - SSH Setup"
-date: "7 September 2020"
-author: "[UP Geological Remote Sensing](https://up-rs-esp.github.io/) - [Dr. Harald Schernthanner](mailto:hschernt@uni-potsdam.de)"
-keywords: [installation pcpool ssh]
-titlepage: false
-toc-own-page: false
-disable-header-and-footer: false
-listings-disable-line-numbers: true
-header-left:  "Working Remotely - SSH Setup"
-header-right: "Jul-8 2026"
-footer-left: ""
-lang: "en"
+author: "UP Geological Remote Sensing - Dr. Harald Schernthanner"
+date: "8 July 2026"
+format:
+  pdf:
+    toc: true
+    number-sections: true
+  html:
+    toc: true
 ---
+
 
 # Contact
 
@@ -101,6 +97,7 @@ yes
 
 You are now logged in to the remote PC Pool machine.
 
+
 #### Alternative: Using PuTTY on Windows
 
 Users who prefer a graphical SSH client may use [PuTTY](https://www.putty.org/). PuTTY includes **PuTTYgen**, a tool for generating SSH key pairs, and **PuTTY**, the SSH client used to connect to remote machines.
@@ -109,43 +106,38 @@ Users who prefer a graphical SSH client may use [PuTTY](https://www.putty.org/).
 
 2. Open **PuTTYgen**:
 
-   **Start menu > search for “PuTTYgen” > open the program**
+   **Start menu → search for "PuTTYgen" → open the program**
 
-3. In PuTTYgen, generate a new SSH key pair. We recommend using an **Ed25519** key. If Ed25519 is not available, use an **RSA** key with at least **4096 bits**.
+3. In PuTTYgen, generate a new SSH key pair. We recommend using an **Ed25519** key. If Ed25519 is not available, generate an **RSA** key with at least **4096 bits**.
 
 4. Save both the private and public key in a secure location on your personal computer.
 
 5. Copy the contents of the public key and send it by email to the system administrator, Dr. Harald Schernthanner ([hschernt@uni-potsdam.de](mailto:hschernt@uni-potsdam.de)).
 
-**Important:** Protect your private key with a strong passphrase, store it securely, and never share it with anyone. Only the public key should be sent to the administrator.
+   **Important:** Protect your private key with a strong passphrase, store it securely, and never share it with anyone. Only the public key should be sent to the administrator.
 
-![Generate private/public key pair using PuTTYgen](img/putty-keygen_steps.png)
+6. After receiving your public key, Dr. Harald Schernthanner ([hschernt@uni-potsdam.de](mailto:hschernt@uni-potsdam.de)) creates an account for you, installs your public key on the PC Pool system, and contacts you when your account is ready. You will receive your username and the IP address or hostname of your assigned PC Pool machine.
 
-6. After receiving your public key, Dr. Harald Schernthanner ([hschernt@uni-potsdam.de](mailto:hschernt@uni-potsdam.de)) creates an account for you, adds your public key to the system, and contacts you when your account is ready. You will receive your username and the IP address or hostname of your assigned PC Pool machine.
+7. Open **PuTTY**:
 
-7. When the account is ready, open **PuTTY**:
+   - Enter the IP address or hostname of your assigned PC Pool machine in the **Host Name** field.
+   - Ensure that the connection type is set to **SSH**.
+   - (Optional) Save the session by entering a name under **Saved Sessions** and clicking **Save**.
 
-   **Start menu > search for “PuTTY” > open the program**
+8. Configure your private key:
 
-   Enter the IP address or hostname of your assigned machine.
+   - Navigate to **Connection → SSH → Auth → Credentials**.
+   - Under **Private key file for authentication**, click **Browse...**
+   - Select the private key (`.ppk`) you created with PuTTYgen.
+   - Return to the **Session** category and click **Open**.
 
-![Enter IP address of your assigned machine in PuTTY on Windows](img/putty-hostname.png)
+9. On the first connection, PuTTY displays the server's host key fingerprint.
 
-8. To complete the login in PuTTY, select your private key file:
+   Verify that the hostname or IP address matches the information you received from the administrator and click **Accept** (or **Yes**, depending on your PuTTY version) to continue.
 
-   **Connection > SSH > Auth > Credentials > Private key file for authentication**
+10. Log in using the username provided by the administrator.
 
-   Then click **Open** to connect.
-
-![Point PuTTY to the private key you saved in the previous step.](img/putty-private-key-load.png)
-
-9. On your first login, PuTTY will show a security alert asking whether you trust the remote host. Check that the hostname or IP address matches the information you received, then click **Yes**.
-
-![Say "Yes" to the security alert, which should only occur on your very first login.](img/putty-connect-security-alert.png)
-
-10. After the login is complete, you will enter your username and end up on a command-line terminal for your assigned computer. Below we see user `ben` logged into `pcpool10`. You are now remotely logged in to the PC Pool.
-
-![Logged on to the PC Pool as user `ben` on computer `pcpool10`](img/putty-logged-on.png)
+    Once authenticated, you are connected to your assigned PC Pool machine and can start working from the Linux command line.
 
 
 ### `ssh` Key Generation and Login: Linux / Mac
@@ -192,11 +184,11 @@ You can install [FileZilla Client](https://filezilla-project.org/download.php?ty
 
 When you open FileZilla for the first time you will need to click the top left icon ("Open the Site Manager" with the little server icons underneath "File"). In the Site Manager window create a new site, call it "pc-pool", and fill out the "General" tab exactly as below (changing the fields to your host IP, username, and SSH private key file location):
 
-![Open a FileZilla session and create a new site to the remote pc-pool host with your username and SSH private key.](img/filezilla-connect.png)
+![Open a FileZilla session and create a new site to the remote pc-pool host with your username and SSH private key.](img/filezilla-connect.png){ width=70% }
 
 After you click "Connect" you can see all of the files on the local and remote systems in two side-by-side panels, navigate around the system folders, and copy data back and forth:
 
-![FileZilla connected to remote host showing the file browser for both the local and remote computers.](img/filezilla-connect-browse.png)
+![FileZilla connected to remote host showing the file browser for both the local and remote computers.](img/filezilla-connect-browse.png){ width=70% }
 
 **Note:** The new site "pc-pool" will stay in your site manager list and you can easily reconnect in your next FileZilla session as long as you don't move your SSH private key to a new location.
 
@@ -276,7 +268,8 @@ Now start the Jupyter Notebook session on the PC Pool:
 jupyter notebook --no-browser --port=XXXX
 ```
 
-Replace "XXXX" with your assigned port number. _**Note: Use the four-digit port number (e.g., 8888) that was assigned to you along with your PC IP address and username. If you accidentally use the same port as someone else on the same PC, you would be trying to edit each other's notebooks!**_
+Replace "XXXX" with your assigned port number. _**Note: Use the four-digit port number (e.g., 8888)
+ that was assigned to you along with your PC IP address and username. If you accidentally use the same port as someone else on the same PC, you would be trying to edit each other's notebooks!**_
 
 Now you are all set on the server side and you can open a new command line / terminal on your local computer.
 
@@ -299,7 +292,7 @@ After this, navigate to Connection > SSH > Tunnels and put in "Source port" the 
 
 In this example the user `ben` has been assigned port 8889:
 
-![Port forwarding in PuTTY.](img/putty-ssh-tunnel.png)
+![Port forwarding in PuTTY.](img/putty-ssh-tunnel.png){ width=70% }
 
 Now you can press "Open" to start the remote session with port forwarding setup. Your computer will "listen" on port 8888 and the remote PC will broadcast on port 8889, or whatever port combination you use.
 
