@@ -1,7 +1,8 @@
 ---
 title: "Working Remotely - SSH Setup"
-author: "UP Geological Remote Sensing - Dr. Harald Schernthanner"
-date: "8 July 2026"
+author: "Harald Schernthanner"
+date: last-modified
+
 format:
   pdf:
     toc: true
@@ -163,12 +164,12 @@ ssh -i /home/ben/yourkeyname ben@141.89.113.170
 
 ## Data Storage on PC Pool Computers
 
-Do not store your data in your home directory (`/home/student`). Instead use `/DATA` for fast, local storage. You should create your own sub-directory. For the user `ben`, I would write:
+Do not store your data in your home directory (`/home/student`). Instead use `/DATA` for fast, local storage. You should create your own sub-directory. For the user `ben`, use:
 ```
 mkdir /DATA/ben
 ```
 
-_**Note: We periodically wipe the `/home`, and `/DATA` directories (don't worry, not during courses!), so don't plan on long-term storage on the PC Pool**_
+_**Note: The `/home` and `/DATA` directories are periodically wiped (not during courses), so they should not be used for long-term storage on the PC Pool.**_
 
 
 ## File Transfer Between Local and Remote Computers
@@ -190,7 +191,7 @@ After you click "Connect" you can see all of the files on the local and remote s
 
 ![FileZilla connected to remote host showing the file browser for both the local and remote computers.](img/filezilla-connect-browse.png){ width=70% }
 
-**Note:** The new site "pc-pool" will stay in your site manager list and you can easily reconnect in your next FileZilla session as long as you don't move your SSH private key to a new location.
+**Note:** The new site "pc-pool" will stay in the Site Manager list and can be used to reconnect in the next FileZilla session as long as the SSH private key remains in the same location.
 
 
 ### Command Line: `rsync`
@@ -201,18 +202,18 @@ The basic syntax is:
 ```
 rsync <options> <local filename> <remote filename>
 ```
-For example, if I (user: `ben` on computer `141.89.113.160`) want to copy the file `my_jupyter_notebook.ipynb` from my local computer to the PC Pool location `/data/ben`, use:
+For example, to copy the file `my_jupyter_notebook.ipynb` from the local computer to the PC Pool location `/DATA/ben` for user `ben` on computer `141.89.113.160`, use:
 ```
-rsync -avzh --progress my_jupyter_notebook.ipynb ben@141.89.113.160:/data/ben/
+rsync -avzh --progress my_jupyter_notebook.ipynb ben@141.89.113.160:/DATA/ben/
 ```
-Or to transfer a remote file on the PC pool to my current directory (**Note:** the period (`.`) below refers to _**current directory**_, so wherever you are currently `cd`'d to):
+Or to transfer a remote file on the PC Pool to the current directory (**Note:** the period (`.`) below refers to _**current directory**_, so wherever you are currently `cd`'d to):
 ```
-rsync -avzh --progress ben@141.89.113.160:/data/ben/my_jupyter_notebook.ipynb .
+rsync -avzh --progress ben@141.89.113.160:/DATA/ben/my_jupyter_notebook.ipynb .
 ```
 The `rsync` options used here include: `-a` (archive), `-v` (verbose), `-z` (compress), `-h` (human readable), and `--progress` (progress bar). You can read about the `rsync` options online via the [manual](https://linux.die.net/man/1/rsync) or in [cheat sheets](https://devhints.io/rsync).
 
 
-# Using Jupyter Remotely Via SSH
+# Using JupyterLab Remotely Via SSH
 
 You can run Jupyter on the remote PCs to harness more computing power and to use datasets that you may not want (or be able) to download locally.
 
@@ -242,7 +243,7 @@ To end a screen, re-join it using the above command and just type `exit`. You ca
 screen -S screen_name -X quit
 ```
 
-_**Note: You should become very familiar with the above screen commands. Especially detaching, re-joining, and quitting screens, which you should be doing in every SSH session! If you keep starting new screens without ending old ones we eventually have to kill all the processes**_
+_**Note: You should become very familiar with the above screen commands, especially detaching, re-joining, and quitting sessions. These actions should be performed during every SSH session. If new screen sessions are repeatedly started without ending old ones, the remaining processes may eventually need to be terminated by the administrators.**_
 
 
 ## Opening Remote Notebook Via Port Forwarding: Linux / Mac
@@ -252,41 +253,55 @@ On Mac / Linux login to the remote PC using ssh:
 ssh -i /home/my_username/yourkeyname my_username@my_pc_ip_address
 ```
 
-Once you are in a **screen session** on the remote PC, we can setup the Jupyter notebook via port forwarding. First do:
+Once you are in a **screen session** on the remote PC, JupyterLab can be set up via port forwarding. First do:
 ```
 conda activate <Class Environment Name>
-jupyter notebook --generate-config
-jupyter notebook password
+jupyter lab --generate-config
+jupyter lab password
 ```
 
-This will first activate the Python environment for the class (e.g., `DataAnalysis` in place of `<Class Environment Name>`), then generate a configuration file for Jupyter, and then allow you to create a password to access the notebook.
+This will first activate the Python environment for the class (e.g., `DataAnalysis` in place of `<Class Environment Name>`), then generate a configuration file for JupyterLab, and then allow you to create a password to access the JupyterLab session.
 
-Following this, you need to `cd` into the remote directory where your data is stored, e.g., `cd /data/my_username/DataAnalysis_Labs/`. Make sure that you have your own directory set up on the `/data` drive! Otherwise you will overwrite each other's work!
+Following this, you need to `cd` into the remote directory where your data is stored, e.g., `cd /DATA/my_username/DataAnalysis_Labs/`. Make sure that you have your own directory set up on the `/data` drive! Otherwise you will overwrite each other's work!
 
 Now start the Jupyter Notebook session on the PC Pool:
 ```
-jupyter notebook --no-browser --port=XXXX
+jupyter lab --no-browser --port=XXXX
 ```
 
-Replace "XXXX" with your assigned port number. _**Note: Use the four-digit port number (e.g., 8888)
- that was assigned to you along with your PC IP address and username. If you accidentally use the same port as someone else on the same PC, you would be trying to edit each other's notebooks!**_
+Replace "XXXX" with your assigned port number. _**Note: Use the four-digit port number (e.g., 8888)---
+title: "Working Remotely - SSH Setup"
+author: "UP Geological Remote Sensing - Dr. Harald Schernthanner"
+date: "8 July 2026"
+format:
+  pdf:
+    toc: true
+    number-sections: true
+  html:
+    toc: true
+---
+
+
+Replace "XXXX" with your assigned port number. _**Note: Use the four-digit port number (e.g., 8888) that was assigned to you along with your PC IP address and username. If you accidentally use the same port as someone else on the same PC, you would be trying to edit each other's notebooks!**_
 
 Now you are all set on the server side and you can open a new command line / terminal on your local computer.
 
-The next step is to tell your local computer how to access the remotely running Jupyter Notebook you started on the server. We do this via port forwarding. Once again, this is a simple one-line command **run in a new command-line prompt on your local computer**:
+The next step is to tell your local computer how to access the remotely running JupyterLab session started on the server. This is done via port forwarding. Once again, this is a simple one-line command **run in a new command-line prompt on your local computer**:
 
-```
-ssh -N -f -L localhost:YYYY:localhost:XXXX -i /home/my_username/yourkeyname my_username@my_pc_ip_address
+```bash
+ssh -N -f -L localhost:YYYY:localhost:XXXX \
+    -i /home/my_username/yourkeyname \
+    my_username@my_pc_ip_address
 ```
 
-`-N` tells SSH that no remote commands will be executed, `-f` tells SSH to go to background so the local terminal remains usable, and `-L` lists the port forwarding configuration (remote port XXXX to local port YYYY). Here, "XXXX" is the same port you used in the remote PC command above, and "YYYY" is the port you want your local computer to listen on. You can use the default 8888 in place of "YYYY", or whatever port you prefer. This command won't show any output – you can check it is working by opening up your web browser, and navigating to the url "http://localhost:YYYY/".
+`-N` tells SSH that no remote commands will be executed, `-f` tells SSH to go to background so the local terminal remains usable, and `-L` lists the port forwarding configuration (remote port XXXX to local port YYYY). Here, "XXXX" is the same port you used in the remote PC command above, and "YYYY" is the port you want your local computer to listen on. You can use the default 8888 in place of "YYYY", or whatever port you prefer. This command does not show any output – it can be checked by opening a web browser and navigating to the URL "http://localhost:YYYY/lab".
 
 You should now be able to access the remote notebooks directly from your browser, while using the computing power of the PC Pool. File transfers between the local and remote machines for datasets, notebooks, and outputs from running scripts can be accomplished using FileZilla or `rsync`, as described above.
 
 
 ## Opening Remote Notebook Via Port Forwarding: Windows
 
-On Windows first open PuTTY and enter the IP address of your assigned machine (**Note:** You can save the IP address by entering it in the "Saved Sessions" box and then pressing "Save" so you don't have to keep entering it when you open PuTTY).
+On Windows first open PuTTY and enter the IP address of your assigned machine (**Note:** The IP address can be saved by entering it in the "Saved Sessions" box and then pressing "Save", so it does not need to be entered each time PuTTY is opened).
 
 After this, navigate to Connection > SSH > Tunnels and put in "Source port" the local port that you want to listen on. You can use 8888 here, or any other port greater than 8000 (e.g., 8881). In the "Destination" put "localhost:XXXX" and then press "Add". Replace "XXXX" with your assigned port number. _**Note: Use the four-digit port number (e.g., 8888) that was assigned to you along with your PC IP address and username. If you accidentally use the same port as someone else on the same PC, you would be trying to edit each other's notebooks!**_
 
@@ -296,24 +311,24 @@ In this example the user `ben` has been assigned port 8889:
 
 Now you can press "Open" to start the remote session with port forwarding setup. Your computer will "listen" on port 8888 and the remote PC will broadcast on port 8889, or whatever port combination you use.
 
-In the remote terminal start a **screen session**. Once you are in a screen on the remote PC, we can setup the Jupyter notebook. First do:
+In the remote terminal start a **screen session**. Once the screen session is running on the remote PC, JupyterLab can be set up. First do:
 ```
 conda activate <Class Environment Name>
-jupyter notebook --generate-config
-jupyter notebook password
+jupyter lab --generate-config
+jupyter lab password
 ```
 
-This will first activate the Python environment for the class (e.g., `DataAnalysis` in place of `<Class Environment Name>`), then generate a configuration file for Jupyter, and then allow you to create a password to access the notebook.
+This will first activate the Python environment for the class (e.g., `DataAnalysis` in place of `<Class Environment Name>`), then generate a configuration file for JupyterLab, and then allow you to create a password to access the JupyterLab session.
 
-Following this, you need to `cd` into the remote directory where your data is stored, e.g., `cd /data/my_username/DataAnalysis_Labs/`. Make sure that you have your own directory set up on the `/data` drive! Otherwise you will overwrite each other's work!
+Following this, you need to `cd` into the remote directory where your data is stored, e.g., `cd /DATA/my_username/DataAnalysis_Labs/`. Make sure that you have your own directory set up on the `/data` drive! Otherwise you will overwrite each other's work!
 
 Now start the Jupyter Notebook session on the PC Pool:
 ```
-jupyter notebook --no-browser --port=XXXX
+jupyter lab --no-browser --port=XXXX
 ```
 
 Replacing "XXXX" with your assigned port number.
 
-Now on you local computer open a browser and navigate to the url "http://localhost:8888/", replacing 8888 with whichever port you put in the "Source port" in PuTTY.
+Now on your local computer open a browser and navigate to the URL "http://localhost:8888/lab", replacing 8888 with whichever port you put in the "Source port" in PuTTY.
 
 You should now be able to access the remote notebooks directly from your browser, while using the computing power of the PC Pool. File transfers between the local and remote machines for datasets, notebooks, and outputs from running scripts can be accomplished using FileZilla or `rsync`, as described above.
