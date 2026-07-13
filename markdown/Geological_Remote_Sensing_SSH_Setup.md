@@ -1,7 +1,8 @@
 ---
-title: "Working Remotely - SSH Setup"
+title: "Working Remotely"
+subtitle: "SSH Setup"
 author: "Harald Schernthanner"
-date: last-modified
+date: "July 2026"
 
 format:
   pdf:
@@ -269,17 +270,7 @@ Now start the Jupyter Notebook session on the PC Pool:
 jupyter lab --no-browser --port=XXXX
 ```
 
-Replace "XXXX" with your assigned port number. _**Note: Use the four-digit port number (e.g., 8888)---
-title: "Working Remotely - SSH Setup"
-author: "UP Geological Remote Sensing - Dr. Harald Schernthanner"
-date: "8 July 2026"
-format:
-  pdf:
-    toc: true
-    number-sections: true
-  html:
-    toc: true
----
+Replace "XXXX" with your assigned port number. _**Note: Use the four-digit port number (e.g., 8888)
 
 
 Replace "XXXX" with your assigned port number. _**Note: Use the four-digit port number (e.g., 8888) that was assigned to you along with your PC IP address and username. If you accidentally use the same port as someone else on the same PC, you would be trying to edit each other's notebooks!**_
